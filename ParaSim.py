@@ -5,13 +5,16 @@ import re
 from rapidfuzz import fuzz
 from nltk.tokenize import PunktSentenceTokenizer
 from termcolor import colored
+import tkinter
 from tkinter import filedialog
 
 
+
+root = tkinter.Tk()
+root.wm_withdraw() # this completely hides the root window
 file = filedialog.askopenfilename()
 
 text = docx2txt.process(file)
-
 
 paras = text.split('\n')
 paras = [x for x in paras if x]
@@ -46,8 +49,8 @@ data_tuples = list(zip(x_list1,y_list1,score))
 results = pd.DataFrame(data_tuples, columns=['X','Y', 'Score'])  
 
 results = results.sort_values(by=['Score'], ascending=False)
-results = results[results['Score'] > 60]
-
+results = results[results['Score'] > 70]
+results = results[results['X'].str.len() > 70]
 x_list3 = list(results['X'])
 y_list3 = list(results['Y'])
         
